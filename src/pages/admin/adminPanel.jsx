@@ -4,12 +4,14 @@ import { FaCar } from "react-icons/fa";
 import { MdRateReview } from "react-icons/md";
 import { FaUserGear } from "react-icons/fa6";
 import { Link, Route, Routes } from "react-router-dom";
+import AdminVehiclesPage from "./vehiclesPage";
+import AddVehicle from "./addVehicle";
 
 export default function AdminPanel(){
 
     return(
         <div className="w-full h-screen flex">
-             <div className="w-[300px] h-full bg-blue-400">
+             <div className="w-[250px] h-full bg-blue-500">
                 <button className='w-full h-[40px] text-white text-[20px] font-bold flex justify-center items-center'>
                   < MdSpaceDashboard/>
                   Dashboard
@@ -33,10 +35,11 @@ export default function AdminPanel(){
         
               </div>
         
-              <div className="w-[calc(100vw-300px)] bg-blue-100">
+              <div className="w-[calc(100vw-250px)] bg-blue-100">
                 <Routes path="/*">
                   <Route path="/bookings" element={<h1>Booking Page</h1>} />
-                  <Route path="/vehicles" element={<h1>Vehicles Page</h1>} />
+                  <Route path="/vehicles" element={<AdminVehiclesPage/>} />
+                  <Route path="/vehicles/add" element={<AddVehicle/>} />
                   <Route path="/reviews" element={<h1>Reviews Page</h1>} />
                   <Route path="/users" element={<h1>Users Page</h1>} />
                 </Routes>

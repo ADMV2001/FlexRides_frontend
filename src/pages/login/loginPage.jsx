@@ -2,7 +2,8 @@ import axios from "axios";
 import "./login.css";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import CustomerHeader from "../../components/customerHeader";
 
 export default function LoginPage(){
 
@@ -24,6 +25,8 @@ export default function LoginPage(){
             toast.success('Login Success')
 
             const user = res.data.user
+
+            localStorage.setItem('token', res.data.token)//saving the user's token in the local storage
             
             if(user.userRole === "admin"){
                 navigate('/admin/')
@@ -42,7 +45,7 @@ export default function LoginPage(){
     return(
         <div className='bg-picture w-full h-screen bg-blue-200 flex justify-center items-center'>
            <form onSubmit={handleOnSubmit}> 
-            <div className='w-[400px] h-[400px] backdrop-blur-xl rounded-xl flex justify-center items-center flex-col relative'>
+            <div className='w-[400px] h-[400px] bg-white/30 backdrop-blur-md  bg-opacity-100 rounded-xl flex justify-center items-center flex-col relative'>
                 
                 <img src="./logo.png" alt="logo" className=' w-[150px] h-[150px] absolute top-1' />
 
@@ -60,9 +63,10 @@ export default function LoginPage(){
                 }}
                 />
 
-                <button className='w-[300px] h-[40px] bg-blue-500 rounded-[5px] mt-[40px] font-bold text-white'>
+                <button className='w-[300px] h-[40px] bg-blue-500 rounded-[5px] mt-[40px] font-bold text-white cursor-pointer'>
                     Login
-                </button>    
+                </button>
+                <span className='mt-[10px] text-white text-[13px]'>Don't have an account? <Link to="#" className='text-blue-600 hover:underline'>Signup Here</Link></span>    
             </div>       
            </form>  
         </div>

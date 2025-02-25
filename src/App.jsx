@@ -2,9 +2,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import AdminPanel from './pages/admin/adminPanel';
 import HomePage from './pages/home/homePage';
-import Testing from './components/testing';
 import LoginPage from './pages/login/loginPage';
 import { Toaster } from 'react-hot-toast';
+import Test from './components/test';
 
 function App() {
   return (
@@ -12,12 +12,12 @@ function App() {
     <Toaster/>
       <Routes path="/*">
         <Route path="/admin/*" element={<AdminPanel/>} />
-        <Route path="/login" element={<LoginPage/>} />
         <Route path="/*" element={<HomePage/>} />
-        <Route path="/testing" element={<Testing/>} />
+        <Route path="/login" element={<LoginPage/>} />
+        <Route path="/test" element={<Test/>}/>
       </Routes>
     </BrowserRouter>
   );
 }
 
-export default App;
+export default App
