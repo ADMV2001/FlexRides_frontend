@@ -1,15 +1,17 @@
 import axios from 'axios';
 import React, {useState} from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function AddVehicle(){
+export default function UpdateVehicle(){
+    const location = useLocation()
+    console.log(location)
 
-    const [key, setKey] = useState('')
-    const [name, setName] = useState('')
-    const [price, setPrice] = useState(0)
-    const [description, setDescription] = useState('')
-    const [category, setCategory] = useState('Sedan')
+    const [key, setKey] = useState(location.state.product.key)
+    const [name, setName] = useState(location.state.product.name)
+    const [price, setPrice] = useState(location.state.product.price)
+    const [description, setDescription] = useState(location.state.product.description)
+    const [category, setCategory] = useState(location.state.product.category)
 
     const navigate = useNavigate()
 
@@ -30,8 +32,7 @@ export default function AddVehicle(){
         }
         else{
             try{
-                const res = await axios.post('http://localhost:3000/api/products/addProducts', {
-                    key : key,
+                const res = await axios.put('http://localhost:3000/api/products/updateProduct/'+location.state.product.key, {
                     name : name,
                     price : price,
                     description : description,
@@ -47,7 +48,7 @@ export default function AddVehicle(){
             }
             catch(err){
                 console.log('Error details:', err.response?.data || err.message)
-                toast.error('Failed to add vehicle')
+                toast.error('Failed to update vehicle')
                 }
             }
     }
@@ -55,12 +56,13 @@ export default function AddVehicle(){
     return (
         <div className="w-full h-screen bg-blue-100 flex flex-col justify-center items-center">
             <div className="w-[500px] bg-white p-4 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-semibold text-blue-700 text-center">Add Vehicle</h2>
+                <h2 className="text-2xl font-bold mb-[30px] text-blue-700 text-center">Update Vehicle Details</h2>
     
                 <input 
+                    disabled
                     type="text" 
                     placeholder="Identification Key" 
-                    className="w-full px-4 py-2 border border-blue-300 rounded-lg outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-blue-300 rounded-lg outline-none focus:ring-1 focus:ring-blue-500 bg-gray-200 font-bold text-gray-500"
                     value={key}
                     onChange={(e) => setKey(e.target.value)}
                 />
@@ -78,7 +80,7 @@ export default function AddVehicle(){
                     placeholder="Rental Price" 
                     className="w-full px-4 py-2 mt-2 border border-blue-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
                     value={price}
-                    onChange={(e) => setPrice(Number(e.target.value))}
+                    onChange={(e) => setPrice(e.target.value)}
                 />
     
                 <textarea 
@@ -103,10 +105,10 @@ export default function AddVehicle(){
                 </select>
     
                 <button 
-                    className="w-full mt-5 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-md"
+                    className="w-full mt-7 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-md"
                     onClick={handleAddVehicle}
                 >
-                    Add Vehicle
+                    Update Vehicle
                 </button>
                 <button 
                     className="w-full mt-2 bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-red-600 transition-all duration-200 shadow-md"

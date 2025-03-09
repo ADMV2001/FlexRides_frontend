@@ -6,6 +6,7 @@ import { FaUserGear } from "react-icons/fa6";
 import { Link, Route, Routes } from "react-router-dom";
 import AdminVehiclesPage from "./adminVehiclesPage";
 import AddVehicle from "./addVehicle";
+import UpdateVehicle from "./updateVehicle";
 
 export default function AdminPanel(){
 
@@ -32,6 +33,7 @@ export default function AdminPanel(){
                   <FaUserGear/>
                   Users
                 </Link>
+                <div className="w-[220px] h-[300px] mb-0 bg-blue-200 flex fixed bottom-3 ml-[15px] rounded-xl justify-center">hello</div>
         
               </div>
         
@@ -40,6 +42,7 @@ export default function AdminPanel(){
                   <Route path="/bookings" element={<h1>Booking Page</h1>} />
                   <Route path="/vehicles" element={<AdminVehiclesPage/>} />
                   <Route path="/vehicles/add" element={<AddVehicle/>} />
+                  <Route path="/vehicles/update" element={<UpdateVehicle/>} />
                   <Route path="/reviews" element={<h1>Reviews Page</h1>} />
                   <Route path="/users" element={<h1>Users Page</h1>} />
                 </Routes>
