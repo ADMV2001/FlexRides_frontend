@@ -4,7 +4,7 @@ import { FaCar } from "react-icons/fa";
 import { MdRateReview } from "react-icons/md";
 import { FaUserGear } from "react-icons/fa6";
 import { Link, Route, Routes } from "react-router-dom";
-import AdminVehiclesPage from "./vehiclesPage";
+import AdminVehiclesPage from "./adminVehiclesPage";
 import AddVehicle from "./addVehicle";
 
 export default function AdminPanel(){

@@ -3,7 +3,6 @@ import "./login.css";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import CustomerHeader from "../../components/customerHeader";
 
 export default function LoginPage(){
 
