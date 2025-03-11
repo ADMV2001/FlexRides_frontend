@@ -14,14 +14,15 @@ export default function LoginPage(){
     async function handleOnSubmit(e) {
         e.preventDefault() //to prevent the page from refreshing
         console.log(email, password)
+        const backendUrl = import.meta.env.VITE_BACKEND_URL //importing the backend url from the .env file
     
         try {
-            const res = await axios.post("http://localhost:3000/api/users/login", {
+            const res = await axios.post(`${backendUrl}/api/users/login`, {
                 email: email,
                 password: password
             })
             console.log(res)
-            toast.success('Login Success')
+            
 
             const user = res.data.user
 
@@ -29,8 +30,10 @@ export default function LoginPage(){
             
             if(user.userRole === "admin"){
                 navigate('/admin/')
+                toast.success('Login Success')
             }else if(user.userRole === "customer"){
                 navigate('/')
+                toast.success('Login Success')
             }else {
                 toast.error('Invalid user!')
             }
@@ -44,7 +47,7 @@ export default function LoginPage(){
     return(
         <div className='bg-picture w-full h-screen bg-blue-200 flex justify-center items-center'>
            <form onSubmit={handleOnSubmit}> 
-            <div className='w-[400px] h-[400px] bg-white/30 backdrop-blur-md  bg-opacity-100 rounded-xl flex justify-center items-center flex-col relative'>
+            <div className='w-[400px] h-[400px] bg-white/30 backdrop-blur-3xl  bg-opacity-100 rounded-xl flex justify-center items-center flex-col relative'>
                 
                 <img src="./logo.png" alt="logo" className=' w-[150px] h-[150px] absolute top-1' />
 
@@ -65,7 +68,7 @@ export default function LoginPage(){
                 <button className='w-[300px] h-[40px] bg-blue-500 rounded-[5px] mt-[40px] font-bold text-white cursor-pointer'>
                     Login
                 </button>
-                <span className='mt-[10px] text-white text-[13px]'>Don't have an account? <Link to="#" className='text-blue-600 hover:underline'>Signup Here</Link></span>    
+                <span className='mt-[10px] text-white text-[13px]'>Don't have an account? <Link to="/register" className='text-blue-700 hover:underline font-semibold'>Signup Here</Link></span>    
             </div>       
            </form>  
         </div>

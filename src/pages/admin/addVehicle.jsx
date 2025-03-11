@@ -25,12 +25,14 @@ export default function AddVehicle(){
 
         const token = localStorage.getItem('token')
 
+        const backendUrl = import.meta.env.VITE_BACKEND_URL
+
         if(!token){
             toast.error('Please login first')
         }
         else{
             try{
-                const res = await axios.post('http://localhost:3000/api/products/addProducts', {
+                const res = await axios.post(`${backendUrl}/api/products/addProducts`, {
                     key : key,
                     name : name,
                     price : price,

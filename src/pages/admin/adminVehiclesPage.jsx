@@ -16,7 +16,9 @@ export default function AdminVehiclesPage(){
         if(!productLoaded){
             const token = localStorage.getItem('token')
 
-            axios.get('http://localhost:3000/api/products/getProducts',{
+            const backendUrl = import.meta.env.VITE_BACKEND_URL
+
+            axios.get(`${backendUrl}/api/products/getProducts`,{
                 headers: {"Authorization" : "Bearer " + token}
             }).then((res)=>{
                 console.log(res.data)
@@ -31,9 +33,8 @@ export default function AdminVehiclesPage(){
     function handleDelete(key){
         if(window.confirm('Are you sure you want to delete this product?')){
 
-            const token = localStorage.getItem('token')
 
-            axios.delete('http://localhost:3000/api/products/deleteProduct/' + key, {
+            axios.delete(`${backendUrl}/api/products/deleteProduct/` + key, {
                 headers: {"Authorization" : "Bearer " + token}
             }).then((res)=>{
                 console.log(res.data)

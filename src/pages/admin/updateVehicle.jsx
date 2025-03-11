@@ -27,12 +27,14 @@ export default function UpdateVehicle(){
 
         const token = localStorage.getItem('token')
 
+        const backendUrl = import.meta.env.VITE_BACKEND_URL
+
         if(!token){
             toast.error('Please login first')
         }
         else{
             try{
-                const res = await axios.put('http://localhost:3000/api/products/updateProduct/'+location.state.product.key, {
+                const res = await axios.put(`${backendUrl}/api/products/updateProduct/`+location.state.product.key, {
                     name : name,
                     price : price,
                     description : description,
