@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import mediaUpload from '../../utils/mediaUpload';
 
 export default function AddVehicle(){
 
@@ -10,11 +11,21 @@ export default function AddVehicle(){
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
     const [category, setCategory] = useState('Sedan')
+    const [vehicleImages, setVehicleImages] = useState([])
 
     const navigate = useNavigate()
 
     async function handleAddVehicle(e){
         e.preventDefault()
+
+        const promises = [] //create an array to hold upload promises for files
+        
+        for(let i=0; i<vehicleImages.length; i++){
+            console.log(vehicleImages[i]) 
+            const promise = mediaUpload(vehicleImages[i]) 
+            promises.push(promise)  //put every file that have been uploaded, to the promises array we declared above
+        }
+
 
         if (!key || !name || !price || !description || !category) {
             toast.error("All fields are required");
@@ -32,13 +43,26 @@ export default function AddVehicle(){
         }
         else{
             try{
+                //Promise.all(promises).then((result)=>{
+                //    console.log(result)
+                //    toast.success("Images uploaded successfully")
+
+                //}).catch((err)=>{
+                //    console.log(err)
+                //    toast.error("Error uploading images")
+                //})
+
+                const vehicleImageUrls = await Promise.all(promises);
+
                 const res = await axios.post(`${backendUrl}/api/products/addProducts`, {
                     key : key,
                     name : name,
                     price : price,
                     description : description,
-                    category : category
-                },{
+                    category : category,
+                    image : vehicleImageUrls
+                },
+                {
                     headers: {
                         Authorization : "Bearer " + token
                     }
@@ -103,6 +127,13 @@ export default function AddVehicle(){
                     <option value="Van">Van</option>
                     <option value="Luxury">Luxury</option>
                 </select>
+
+                <input
+                    type="file"
+                    className="w-full px-4 py-2 mt-2 border border-blue-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+                    multiple
+                    onChange={(e)=>setVehicleImages(e.target.files)}
+                /> 
     
                 <button 
                     className="w-full mt-5 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-md"

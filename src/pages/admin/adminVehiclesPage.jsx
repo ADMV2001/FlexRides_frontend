@@ -31,14 +31,18 @@ export default function AdminVehiclesPage(){
     }, [productLoaded] );
 
     function handleDelete(key){
+        console.log(key)
         if(window.confirm('Are you sure you want to delete this product?')){
 
+            const token = localStorage.getItem('token')
+            const backendUrl = import.meta.env.VITE_BACKEND_URL
 
             axios.delete(`${backendUrl}/api/products/deleteProduct/` + key, {
                 headers: {"Authorization" : "Bearer " + token}
             }).then((res)=>{
                 console.log(res.data)
                 setProductLoaded(false)
+                toast.success(res.data.message)
             }).catch((err)=>{
                 console.log('Error details:', err.response?.data || err.message)
             }
