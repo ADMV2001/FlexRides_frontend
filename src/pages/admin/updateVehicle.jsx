@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
+import mediaUpload from '../../utils/mediaUpload';
 
 export default function UpdateVehicle(){
     const location = useLocation()
@@ -12,21 +13,31 @@ export default function UpdateVehicle(){
     const [price, setPrice] = useState(location.state.product.price)
     const [description, setDescription] = useState(location.state.product.description)
     const [category, setCategory] = useState(location.state.product.category)
+    const [vehicleImages, setVehicleImages] = useState([])
 
     const navigate = useNavigate()
 
-    async function handleAddVehicle(e){
+    async function handleUpdateVehicle(e){
         e.preventDefault()
 
-        if (!key || !name || !price || !description || !category) {
-            toast.error("All fields are required");
-            return;
+        let updatingImages = location.state.product.image //we get the backend location of the images from the product we are updating
+
+        if(vehicleImages.length>0){
+            
+            const promises = [] //create an array to hold upload promises for files
+                    
+            for(let i=0; i<vehicleImages.length; i++){
+                console.log(vehicleImages[i]) 
+                const promise = mediaUpload(vehicleImages[i]) 
+                promises.push(promise)  //put every file that have been uploaded, to the promises array we declared above
+            }
+
+            updatingImages = await Promise.all(promises);
         }
 
         console.log(key, name, price, description, category)
 
         const token = localStorage.getItem('token')
-
         const backendUrl = import.meta.env.VITE_BACKEND_URL
 
         if(!token){
@@ -38,7 +49,8 @@ export default function UpdateVehicle(){
                     name : name,
                     price : price,
                     description : description,
-                    category : category
+                    category : category,
+                    image : updatingImages
                 },{
                     headers: {
                         Authorization : "Bearer " + token
@@ -105,10 +117,17 @@ export default function UpdateVehicle(){
                     <option value="Van">Van</option>
                     <option value="Luxury">Luxury</option>
                 </select>
+
+                <input
+                    type="file"
+                    className="w-full px-4 py-2 mt-2 border border-blue-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+                    multiple
+                    onChange={(e)=>setVehicleImages(e.target.files)}
+                /> 
     
                 <button 
                     className="w-full mt-7 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-md"
-                    onClick={handleAddVehicle}
+                    onClick={handleUpdateVehicle}
                 >
                     Update Vehicle
                 </button>

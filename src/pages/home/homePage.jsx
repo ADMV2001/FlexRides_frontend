@@ -6,6 +6,7 @@ import About from "./about"
 import Gallery from "./gallery"
 import Vehicles from "./vehicles"
 import NotFoundError from "./error"
+import VehicleOverview from "./vehicleOverview"
 
 export default function HomePage(){
 
@@ -20,6 +21,8 @@ export default function HomePage(){
                 <Route path="/about" element={<About/>} />
                 <Route path="/gallery" element={<Gallery/>} />
                 <Route path="/vehicles" element={<Vehicles/>} />
+                <Route path="/overview/:key" element={<VehicleOverview/>} />
+
                 <Route path="/*" element={<NotFoundError/>} />
                </Routes>
             </div>
