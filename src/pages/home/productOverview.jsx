@@ -26,25 +26,25 @@ export default function ProductOverview(){
     },[])
 
     return(
-        <div className="w-full h-full flex justify-center ">
+        <div className="w-full h-full flex justify-center pt-[20px] font-[poppins]">
             {
                 loading === "loading" && <div className="w-full h-full flex justify-center items-center">
                     <div className="w-[50px] h-[50px] border-b-4  border-b-blue-600 animate-spin rounded-full"></div>
                 </div>
             }
             {
-                loading === "loaded" && <div className="w-full h-full flex justify-center items-center">
-                    
-                    <div className="w-[50%] h-full bg-white">
+                loading === "loaded" && <div className="w-full h-full flex flex-col md:flex-row justify-center items-center">
+                    <h1 className="text-3xl font-bold text-blue-400 text-center text-[20px] pb-[20px] md:hidden">{product.name}</h1>
+                    <div className="w-full md:w-[49%] h-full bg-white ">
                         <ImageSlider images={product.image}/>
                     </div>
 
-                    <div className="w-[50%] h-full bg-white flex flex-col p-10">
-                        <h1 className="text-3xl font-bold text-blue-400">{product.name}</h1>
-                        <h2 className="text-xl font-semibold text-gray-700">{product.category}</h2>
-                        <p>{product.description}</p>
-                        <p className="text-lg font-bold text-blue-700">LKR {product.price}.00</p>
-                        <button className="w-[150px] mt-4 bg-blue-600 text-white px-4 py-2 rounded-md"
+                    <div className="w-full md:w-[49%] h-[400px] p-2 bg-white flex flex-col gap-y-0.5">
+                        <h1 className="text-3xl font-bold text-blue-400 hidden md:block md:mb-[20px]">{product.name}</h1>
+                        <h2 className="text-[15px] font-semibold text-gray-700">{product.category} category</h2>
+                        <p className="mt-2 text-[12px]">{product.description}</p>
+                        <p className="text-lg font-semibold text-blue-700 mt-[10px]">LKR {product.price.toFixed(2)}</p>
+                        <button className="w-[150px] md:w-[130px] mt-4 bg-blue-600 text-white px-4 p-1 rounded-md"
                                 onClick={()=>{
                                     addToCart(product.key, 1)
                                     console.log(loadCart())

@@ -3,13 +3,41 @@ import "./login.css";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
 
 export default function LoginPage(){
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
     const navigate = useNavigate()
+    
+    const googleLogin = useGoogleLogin(
+        {
+            onSuccess : (res)=>{
+                console.log(res)
+                axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/googleLogin`,{
+                    accessToken : res.access_token
+                }).then((res)=>{
+                    console.log(res)
+                    toast.success('Login Success')
+
+                    const user = res.data.user
+
+                    localStorage.setItem('token', res.data.token)
+
+                    if(user.userRole === "admin"){
+                        navigate('/admin/')
+                    }
+                    else{
+                        navigate('/')
+                    }
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            }
+        }
+    );
+   
 
     async function handleOnSubmit(e) {
         e.preventDefault() //to prevent the page from refreshing
@@ -49,9 +77,11 @@ export default function LoginPage(){
         }
     }
 
+
+
     return(
         <div className='bg-picture w-full h-screen bg-blue-200 flex justify-center items-center'>
-           <form onSubmit={handleOnSubmit}> 
+            
             <div className='w-[400px] h-[400px] bg-white/30 backdrop-blur-3xl  bg-opacity-100 rounded-xl flex justify-center items-center flex-col relative'>
                 
                 <img src="./logo.png" alt="logo" className=' w-[150px] h-[150px] absolute top-1' />
@@ -70,12 +100,22 @@ export default function LoginPage(){
                 }}
                 />
 
-                <button className='w-[300px] h-[40px] bg-blue-500 rounded-[5px] mt-[40px] font-bold text-white cursor-pointer'>
+                <button className='w-[300px] h-[40px] bg-blue-500 rounded-[5px] mt-[40px] font-bold text-white cursor-pointer'
+                onClick={handleOnSubmit}
+                >
                     Login
                 </button>
+
+                <button className='w-[300px] h-[40px] bg-white rounded-[5px] mt-[10px] font-bold text-black cursor-pointer text-[13px]'
+                onClick={googleLogin}
+                >
+                    Login with Google
+                </button>
+               
                 <span className='mt-[10px] text-white text-[13px]'>Don't have an account? <Link to="/register" className='text-blue-700 hover:underline font-semibold'>Signup Here</Link></span>    
             </div>       
-           </form>  
+          
+             
         </div>
     )
 }
