@@ -4,11 +4,47 @@ import { FaCar } from "react-icons/fa";
 import { MdRateReview } from "react-icons/md";
 import { FaUserGear } from "react-icons/fa6";
 import { Link, Route, Routes } from "react-router-dom";
-import AdminVehiclesPage from "./adminVehiclesPage";
-import AddVehicle from "./addVehicle";
-import UpdateVehicle from "./updateVehicle";
+import AdminProductsPage from "./adminProductsPage";
+import AddProduct from "./addProduct";
+import UpdateVehicle from "./updateProduct";
+import AdminUsersPage from "./adminUsersPage";
+import AdminOrdersPage from "./adminBookingsPage";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function AdminPanel(){
+
+  //use this to prevent unauthorized user access to the admin page 
+  const [userValidate, setUserValidate] = useState(false);
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+
+    if(!token){
+      window.location.href = "/login";
+    }
+    
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users/getOneUser`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res) => {
+      console.log(res.data)
+
+      const user = res.data
+
+      if(user.userRole !== "admin"){
+        window.location.href = "/home";
+      }
+      else{
+        setUserValidate(true);
+      }
+
+    }).catch((error) => {
+      console.log(error);
+      setUserValidate(false)
+    })
+
+  },[])
 
     return(
         <div className="w-full h-screen flex">
@@ -17,18 +53,18 @@ export default function AdminPanel(){
                   < MdSpaceDashboard/>
                   Dashboard
                 </button>
-                <Link to="/admin/bookings" className='w-full h-[40px] text-white text-[20px] font-bold flex justify-center items-center'>
+                <Link to="/admin/orders" className='w-full h-[40px] text-white text-[20px] font-bold flex justify-center items-center'>
                   <FaBookmark/>
-                  Bookings
+                  Orders
                 </Link>
-                <Link to="/admin/vehicles" className='w-full h-[40px] text-white text-[20px] font-bold flex justify-center items-center'>
+                <Link to="/admin/products" className='w-full h-[40px] text-white text-[20px] font-bold flex justify-center items-center'>
                   <FaCar/>
-                  Vehicles
+                  Products
                 </Link>
                 <Link to="/admin/reviews" className='w-full h-[40px] text-white text-[20px] font-bold flex justify-center items-center'>
                   <MdRateReview/>
                   Reviews
-                </Link>
+                </Link> 
                 <Link to="/admin/users" className='w-full h-[40px] text-white text-[20px] font-bold flex justify-center items-center'>
                   <FaUserGear/>
                   Users
@@ -38,14 +74,15 @@ export default function AdminPanel(){
               </div>
         
               <div className="w-[calc(100vw-250px)] bg-blue-100">
-                <Routes path="/*">
-                  <Route path="/bookings" element={<h1>Booking Page</h1>} />
-                  <Route path="/vehicles" element={<AdminVehiclesPage/>} />
-                  <Route path="/vehicles/add" element={<AddVehicle/>} />
-                  <Route path="/vehicles/update" element={<UpdateVehicle/>} />
+                { userValidate &&
+                  <Routes path="/*">
+                  <Route path="/orders" element={<AdminOrdersPage/>} />
+                  <Route path="/products" element={<AdminProductsPage/>} />
+                  <Route path="/products/add" element={<AddProduct/>} />
+                  <Route path="/products/update" element={<UpdateVehicle/>} />
                   <Route path="/reviews" element={<h1>Reviews Page</h1>} />
-                  <Route path="/users" element={<h1>Users Page</h1>} />
-                </Routes>
+                  <Route path="/users" element={<AdminUsersPage/>} />
+                </Routes>}
               </div>
             </div>
     )

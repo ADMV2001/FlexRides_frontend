@@ -58,11 +58,11 @@ export default function UpdateVehicle(){
                 }
             );
             toast.success(res.data.message)
-            navigate("/admin/vehicles")
+            navigate("/admin/products")
             }
             catch(err){
                 console.log('Error details:', err.response?.data || err.message)
-                toast.error('Failed to update vehicle')
+                toast.error('Failed to update product')
                 }
             }
     }
@@ -70,7 +70,7 @@ export default function UpdateVehicle(){
     return (
         <div className="w-full h-screen bg-blue-100 flex flex-col justify-center items-center">
             <div className="w-[500px] bg-white p-4 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-bold mb-[30px] text-blue-700 text-center">Update Vehicle Details</h2>
+                <h2 className="text-2xl font-bold mb-[30px] text-blue-700 text-center">Update Product Details</h2>
     
                 <input 
                     disabled
@@ -83,7 +83,7 @@ export default function UpdateVehicle(){
     
                 <input 
                     type="text" 
-                    placeholder="Vehicle Name" 
+                    placeholder="Product Name" 
                     className="w-full px-4 py-2 mt-2 border border-blue-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -109,13 +109,24 @@ export default function UpdateVehicle(){
                 value={category}
                 onChange={(e) => setCategory(e.target.value) }
                 >
-                    <option value="Sedan">Sedan</option>
-                    <option value="Hatchback">Hatchback</option>
-                    <option value="SUV">SUV</option>
-                    <option value="Coupe">Coupe</option>
-                    <option value="Wagon">Wagon</option>
-                    <option value="Van">Van</option>
-                    <option value="Luxury">Luxury</option>
+                    <option value="Speakers">Speakers</option>
+                    <option value="Microphones">Microphones</option>
+                    <option value="Mixers">Mixers</option>
+                    <option value="Amplifiers">Amplifiers</option>
+                    <option value="DJ Equipment">DJ Equipment</option>
+                    <option value="Audio Interfaces">Audio Interfaces</option>
+                    <option value="Cables & Accessories">Cables & Accessories</option>
+                    <option value="Lighting & Effects">Lighting & Effects</option>
+                    <option value="PA Systems">PA Systems</option>
+                    <option value="Monitors">Monitors (Studio/Stage)</option>
+                    <option value="Headphones">Headphones</option>
+                    <option value="Stands & Mounts">Stands & Mounts</option>
+                    <option value="Instruments">Instruments</option>
+                    <option value="Power Supplies & Adapters">Power Supplies & Adapters</option>
+                    <option value="Recording Equipment">Recording Equipment</option>
+                    <option value="Wireless Systems">Wireless Systems</option>
+                    <option value="Live Sound Packages">Live Sound Packages</option>
+                    <option value="Conference Audio Kits">Conference Audio Kits</option>
                 </select>
 
                 <input
@@ -129,7 +140,7 @@ export default function UpdateVehicle(){
                     className="w-full mt-7 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-md"
                     onClick={handleUpdateVehicle}
                 >
-                    Update Vehicle
+                    Update Product
                 </button>
                 <button 
                     className="w-full mt-2 bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-red-600 transition-all duration-200 shadow-md"

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { IoIosAddCircle } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function AdminVehiclesPage(){
+export default function AdminProductsPage(){
 
     const [products, setProducts] = useState([])
     const [productLoaded, setProductLoaded] = useState(false)//these simple variables can be passed into the useEffect's empty array 
@@ -85,7 +85,7 @@ export default function AdminVehiclesPage(){
                                     <button 
                                     className="text-blue-600 bg-blue-200 rounded-[8px] pl-[7px] pr-[7px] pt-[3px] pb-[4px] hover:text-blue-700 text-sm font-medium transition-transform active:scale-110"
                                     onClick={()=>{
-                                        navigate('/admin/vehicles/update', {state: {product: product}})
+                                        navigate('/admin/products/update', {state: {product: product}})
                                     }}
                                     >
                                         Edit
@@ -103,7 +103,7 @@ export default function AdminVehiclesPage(){
                 </table>
             </div>}
     
-            <Link to="/admin/vehicles/add">
+            <Link to="/admin/products/add">
                 <IoIosAddCircle className="text-[50px] text-blue-500 absolute right-6 bottom-6 hover:text-green-400 cursor-pointer transition-transform active:scale-110" />
             </Link>
         </div>

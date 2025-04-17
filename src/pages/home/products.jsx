@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import toast from "react-hot-toast";
 import ProductCard from "../../components/productCard";
 
-export default function Vehicles(){
+export default function Products(){
 
     const [vehicles, setVehicles] = useState([])
     const [state, setState] = useState("loading")//loading, success, error
@@ -22,7 +22,7 @@ export default function Vehicles(){
     }, [state]);
 
     return(
-        <div className="w-full h-full bg-blue-100 flex flex-wrap justify-center pt-[50px]">
+        <div className="w-full h-full flex flex-wrap justify-center pt-[40px]">
             {
                 state=="loading" && 
                 <div className="w-full h-full flex justify-center items-center">
