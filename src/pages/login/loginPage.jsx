@@ -45,7 +45,7 @@ export default function LoginPage(){
         const backendUrl = import.meta.env.VITE_BACKEND_URL //importing the backend url from the .env file
     
         try {
-            const res = await axios.post(`${backendUrl}/api/users/login`, {
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, {
                 email: email,
                 password: password
             })
@@ -55,7 +55,13 @@ export default function LoginPage(){
             const user = res.data.user
 
             localStorage.setItem('token', res.data.token)//saving the user's token in the local storage
+            console.log(user)
             
+            if(user.emailVerified === false){
+                navigate("/verify-email")
+                return
+            }
+
             if(user.userRole === "admin"){
                 navigate('/admin/')
                 toast.success('Login Success')
